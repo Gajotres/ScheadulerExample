@@ -61,30 +61,34 @@
 			  ]
 			};	
 
-			$scope.employees["e0"] = "Show every employee";
+			$scope.employees["e0"] = {'name': 'Show every employee', id : 'e0'};
 			angular.forEach(dummyJson.employee, function(value, key) {
-			    $scope.employees[value.id] = value.name;
+			    $scope.employees[value.id] = {'name': value.name, 'id' : value.id};
 			});
 
-			$scope.orgUnits["o0"] = "Show every org. unit";
+			$scope.orgUnits["o0"] = {'name': 'Show every org. unit', id : 'o0'};
 			angular.forEach(dummyJson.orgUnits, function(value, key) {
-			    $scope.orgUnits[value.id] = value.name;
+			    $scope.orgUnits[value.id] = {'name': value.name, 'id' : value.id};
 			});
 
-			$scope.skills["s0"] = "Show every skill";
+			$scope.skills["s0"] = {'name': 'Show every skill', id : 's0'};
 			angular.forEach(dummyJson.skills, function(value, key) {
-			    $scope.skills[value.id] = value.name;
+			    $scope.skills[value.id] = {'name': value.name, 'id' : value.id};
 			});
 
 			$scope.$watch("employee", function(newValue, oldValue){
-				if(newValue !== undefined) {
-					
-				}
+				if(newValue !== undefined && newValue !== null) {				
+					$scope.buildClassicView(newValue);
+					$scope.orgUnit = null;
+					$scope.skill = null;
+				}				
 			});
 
 			$scope.$watch("orgUnit", function(newValue, oldValue){
-				if(newValue !== undefined) {
-					
+				if(newValue !== undefined && newValue !== null) {
+					$scope.buildOrganizationView(newValue);
+					$scope.employee = null;
+					$scope.skill = null;					
 				}
 			});
 
@@ -95,6 +99,9 @@
 			});
 
 			$scope.generateSimpleCalendar = function(calResources, calEvents, lebelText, simpleDisplay) {
+
+				$('#calendar-container').empty();
+				$('#calendar-container').append('<div id="calendar"></div>');
 
 				var options = {
 					now: '2016-01-07',
@@ -123,49 +130,57 @@
 					options.resourceGroupField = 'group';
 				}
 
-				$('#calendar').fullCalendar(options);			
+				$('#calendar').fullCalendar(options);
 			}			
 
-			$scope.buildClassicView = function(json, employeeID) {
+			$scope.buildClassicView = function(employee) {
 
 				$scope.calResources = [];
 				$scope.calEvents = [];
 				$scope.calInnerElements = 0;
 
 				angular.forEach(dummyJson.employee, function(value, key) {
-				    $scope.calResources.push({id : value.id, title : value.name});
+					if((employee === undefined || employee === null) || (employee !== undefined && employee !== null && (employee.id == value.id || employee.id == 'e0'))) {
+						$scope.calResources.push({id : value.id, title : value.name});	
+					}
 				});
 
 				angular.forEach(dummyJson.employee, function(value, key) {
-				    angular.forEach(value.tasks, function(innerValue, innerKey) {
-					    $scope.calEvents.push({id :$scope.calInnerElements++, resourceId : value.id, start : innerValue.start, end : innerValue.end, title: innerValue.title});
-					});	
+					if((employee === undefined || employee === null) || (employee !== undefined && employee !== null && (employee.id == value.id || employee.id == 'e0'))) {
+					    angular.forEach(value.tasks, function(innerValue, innerKey) {
+						    $scope.calEvents.push({id :$scope.calInnerElements++, resourceId : value.id, start : innerValue.start, end : innerValue.end, title: innerValue.title});
+						});	
+					}
 				});				
 
 				$scope.generateSimpleCalendar($scope.calResources, $scope.calEvents, 'Employees', true);				
 			};
 
-			$scope.buildOrganizationView = function(json, organizationID) {
+			$scope.buildOrganizationView = function(organization) {
 
 				$scope.calResources = [];
 				$scope.calEvents = [];
 				$scope.calInnerElements = 0;
 
 				angular.forEach(dummyJson.orgUnits, function(value, key) {
-				    angular.forEach(dummyJson.employee, function(innerValue, innerKey) {
-					    angular.forEach(innerValue.tasks, function(taskValue, taskKey) {
-					    	if(value.id == taskValue.orgUnit && $scope.checkIfResourceExists(innerValue.name, value.name, $scope.calResources)) {
-								$scope.calResources.push({id : taskValue.id, title : innerValue.name, group: value.name});
-					    	}
+					if((organization === undefined || organization === null) || (organization !== undefined && organization !== null && (organization.id == value.id || organization.id == 'o0'))) {
+					    angular.forEach(dummyJson.employee, function(innerValue, innerKey) {
+						    angular.forEach(innerValue.tasks, function(taskValue, taskKey) {
+						    	if(value.id == taskValue.orgUnit && $scope.checkIfResourceExists(innerValue.name, value.name, $scope.calResources)) {
+									$scope.calResources.push({id : taskValue.id, title : innerValue.name, group: value.name});
+						    	}
+							});
 						});
-					});
+					}
 				});
 
 				angular.forEach(dummyJson.employee, function(value, key) {
 				    angular.forEach(value.tasks, function(innerValue, innerKey) {
-				    	var resId = innerValue.id;
-				    	resId = $scope.getCorrectTaskId(resId, innerValue.orgUnit, value.tasks);
-					    $scope.calEvents.push({id : $scope.calInnerElements++, resourceId : resId, start : innerValue.start, end : innerValue.end, title: innerValue.title});
+				    	if((organization === undefined || organization === null) || (organization !== undefined && organization !== null && (organization.id == innerValue.orgUnit || organization.id == 'o0'))) {
+					    	var resId = innerValue.id;
+					    	resId = $scope.getCorrectTaskId(resId, innerValue.orgUnit, value.tasks);
+						    $scope.calEvents.push({id : $scope.calInnerElements++, resourceId : resId, start : innerValue.start, end : innerValue.end, title: innerValue.title});
+						}
 					});
 				});
 
@@ -198,8 +213,8 @@
 				return resId;
 			}					
 
-			$scope.buildClassicView(dummyJson, null);
-			//$scope.buildOrganizationView(dummyJson, null);
+			//$scope.buildClassicView(null);
+			$scope.buildOrganizationView(null);
 		});
 	</script>
 	<style>
@@ -235,7 +250,7 @@
 			.container {
 			     width: 100%;
 			}
-		}			
+		}
 
 	</style>
 </head>
@@ -245,21 +260,20 @@
 		<div class="row">
 			<div class="col-md-1"></div>
 			<div class="col-md-2">
-				<oi-select oi-options="item for (key, item) in employees" ng-model="employee" placeholder="Select Employee"></oi-select>
+				<oi-select oi-options="item.name for (key, item) in employees" ng-model="employee" placeholder="Select Employee"></oi-select>
 			</div>
 			<div class="col-md-2">
-				<oi-select oi-options="item for (key, item) in orgUnits" ng-model="orgUnit" placeholder="Select Organization Unit"></oi-select>
+				<oi-select oi-options="item.name for (key, item) in orgUnits" ng-model="orgUnit" placeholder="Select Organization Unit"></oi-select>
 			</div>
 			<div class="col-md-2">
-				<oi-select oi-options="item for (key, item) in skills" ng-model="skill" placeholder="Select Skill"></oi-select>
+				<oi-select oi-options="item.name for (key, item) in skills" ng-model="skill" placeholder="Select Skill"></oi-select>
 			</div>						
 			<div class="col-md-5"></div>
 		</div>
 		<div class="row spacer"></div>
 		<div class="row">
 			<div class="col-md-1"></div>
-			<div class="col-md-10">
-				<div id='calendar'></div>
+			<div class="col-md-10" id="calendar-container">
 			</div>
 			<div class="col-md-1"></div>
 		</div>
