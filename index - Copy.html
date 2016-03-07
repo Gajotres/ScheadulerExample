@@ -41,22 +41,21 @@
 			  ],
 			  employee : [
 			  	{'id':'e1', name: 'Pero Perić','tasks': [
-			      {id: 't1', 'orgUnit' : 'o1', 'skill' : 's2', start: '2016-01-07T02:00:00', end: '2016-01-07T07:00:00', title: 'Task 1'},
-			      {id: 't2', 'orgUnit' : 'o1', 'skill' : 's1', start: '2016-01-07T05:00:00', end: '2016-01-07T13:00:00', title: 'Task 6'},
-			      {id: 't8', 'orgUnit' : 'o1', 'skill' : 's3', start: '2016-01-07T14:00:00', end: '2016-01-07T16:00:00', title: 'Task 6'}
+			      {id: 1, 'orgUnit' : 'o1', 'skill' : 's2', start: '2016-01-07T02:00:00', end: '2016-01-04T07:00:00', title: 'Task 1'},
+			      {id: 2, 'orgUnit' : 'o5', 'skill' : 's1', start: '2016-01-07T05:00:00', end: '2016-01-07T13:00:00', title: 'Task 6'}
 			    ]},
 			    {'id':'e2', name: 'Tajni Petokolonaš','tasks': [
-			      {id: 't3', 'orgUnit' : 'o2', 'skill' : 's5', start: '2016-01-07T02:00:00', end: '2016-01-07T15:00:00', title: 'Task 2'}
+			      {id: 3, 'orgUnit' : 'o2', 'skill' : 's5', start: '2016-01-07T02:00:00', end: '2016-01-07T15:00:00', title: 'Task 2'}
 			    ]},
 			    {'id':'e3', name: 'Hunny Bunny aka Dražen Zečić','tasks': [
-			      {id: 't4', 'orgUnit' : 'o3', 'skill' : 's4', start: '2016-01-07T02:00:00', end: '2016-01-07T11:00:00', title: 'Task 3'},
-			      {id: 't7', 'orgUnit' : 'o5', 'skill' : 's5', start: '2016-01-07T10:00:00', end: '2016-01-07T17:00:00', title: 'Task 7'}
+			      {id: 4, 'orgUnit' : 'o3', 'skill' : 's4', start: '2016-01-07T02:00:00', end: '2016-01-07T11:00:00', title: 'Task 3'},
+			      {id: 7, 'orgUnit' : 'o3', 'skill' : 's5', start: '2016-01-07T10:00:00', end: '2016-01-07T17:00:00', title: 'Task 7'}
 			    ]},
 			    {'id':'e4', name: 'Lovac na Jelene','tasks': [
-			      {id: 't5', 'orgUnit' : 'o4', 'skill' : 's3', start: '2016-01-07T02:00:00', end: '2016-01-07T07:00:00', title: 'Task 4'}
+			      {id: 5, 'orgUnit' : 'o4', 'skill' : 's3', start: '2016-01-07T02:00:00', end: '2016-01-07T07:00:00', title: 'Task 4'}
 			    ]},
 			    {'id':'e5', name: 'Mali Ivica','tasks': [
-			      {id: 't6', 'orgUnit' : 'o5', 'skill' : 's1', start: '2016-01-07T02:00:00', end: '2016-01-07T06:00:00', title: 'Task 5'}
+			      {id: 6, 'orgUnit' : 'o5', 'skill' : 's1', start: '2016-01-07T02:00:00', end: '2016-01-07T06:00:00', title: 'Task 5'}
 			    ]}                
 			  ]
 			};	
@@ -130,7 +129,6 @@
 
 				$scope.calResources = [];
 				$scope.calEvents = [];
-				$scope.calInnerElements = 0;
 
 				angular.forEach(dummyJson.employee, function(value, key) {
 				    $scope.calResources.push({id : value.id, title : value.name});
@@ -138,7 +136,7 @@
 
 				angular.forEach(dummyJson.employee, function(value, key) {
 				    angular.forEach(value.tasks, function(innerValue, innerKey) {
-					    $scope.calEvents.push({id :$scope.calInnerElements++, resourceId : value.id, start : innerValue.start, end : innerValue.end, title: innerValue.title});
+					    $scope.calEvents.push({id : innerValue.id, resourceId : innerValue.id, start : innerValue.start, end : innerValue.end, title: innerValue.title});
 					});	
 				});				
 
@@ -149,12 +147,11 @@
 
 				$scope.calResources = [];
 				$scope.calEvents = [];
-				$scope.calInnerElements = 0;
 
 				angular.forEach(dummyJson.orgUnits, function(value, key) {
 				    angular.forEach(dummyJson.employee, function(innerValue, innerKey) {
 					    angular.forEach(innerValue.tasks, function(taskValue, taskKey) {
-					    	if(value.id == taskValue.orgUnit && $scope.checkIfResourceExists(innerValue.name, value.name, $scope.calResources)) {
+					    	if(value.id == taskValue.orgUnit) {
 								$scope.calResources.push({id : taskValue.id, title : innerValue.name, group: value.name});
 					    	}
 						});
@@ -163,40 +160,12 @@
 
 				angular.forEach(dummyJson.employee, function(value, key) {
 				    angular.forEach(value.tasks, function(innerValue, innerKey) {
-				    	var resId = innerValue.id;
-				    	resId = $scope.getCorrectTaskId(resId, innerValue.orgUnit, value.tasks);
-					    $scope.calEvents.push({id : $scope.calInnerElements++, resourceId : resId, start : innerValue.start, end : innerValue.end, title: innerValue.title});
+					    $scope.calEvents.push({id : innerValue.id, resourceId : value.id, start : innerValue.start, end : innerValue.end, title: innerValue.title});
 					});
 				});
 
 				$scope.generateSimpleCalendar($scope.calResources, $scope.calEvents, 'Organizations', false);				
-			};
-
-			$scope.checkIfResourceExists = function(title, group, resources) {
-
-				var dontExist = true;
-
-			    angular.forEach(resources, function(value, key) {
-				    if(value.title == title && value.group == group) {
-						dontExist = false;
-				    }
-				});	
-
-				return dontExist;			
-			}	
-
-			$scope.getCorrectTaskId = function(resId, group, events) {
-
-				var keepGoing = true;
-			    angular.forEach(events, function(innerValue, innerKey) {
-				    if(innerValue.orgUnit == group && keepGoing) {
-				    	resId = innerValue.id;
-				    	keepGoing = false;
-				    }
-				});	
-
-				return resId;
-			}					
+			};			
 
 			$scope.buildClassicView(dummyJson, null);
 			//$scope.buildOrganizationView(dummyJson, null);
