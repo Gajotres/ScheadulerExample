@@ -8,11 +8,11 @@ app.controller('SchedulerCtrl', function ($scope, $http){
 
 	var dummyJson = {
 		orgUnits: [
-	  	{'id':'o1', 'name':'Department 1'},
-	  	{'id':'o2', 'name':'Department 2'},
-		{'id':'o3', 'name':'Department 3'},
-		{'id':'o4', 'name':'Department 4'},
-		{'id':'o5', 'name':'Department 5'}
+	  	{'id':'o1', 'name':'Odjel 1'},
+	  	{'id':'o2', 'name':'Odjel 2'},
+		{'id':'o3', 'name':'Odjel 3'},
+		{'id':'o4', 'name':'Odjel 4'},
+		{'id':'o5', 'name':'Odjel 5'}
 	  ],
 	  skills : [
 	  	{'id':'s1', 'name':'Pranje Prozora'},
@@ -22,7 +22,7 @@ app.controller('SchedulerCtrl', function ($scope, $http){
 	    {'id':'s5', 'name':'Tehnolog'}
 	  ],
 	  employee : [
-	  	{'id':'e1', name: 'Pero Perić','tasks': [
+	  	{'id':'e1', name: 'Pero Perić', 'tasks': [
 	      {id: 't1', 'orgUnit' : 'o1', 'skill' : 's2', start: '2016-01-07T02:00:00', end: '2016-01-07T07:00:00', title: 'Task 1'},
 	      {id: 't2', 'orgUnit' : 'o1', 'skill' : 's1', start: '2016-01-07T05:00:00', end: '2016-01-07T13:00:00', title: 'Task 6'},
 	      {id: 't8', 'orgUnit' : 'o1', 'skill' : 's3', start: '2016-01-07T14:00:00', end: '2016-01-07T16:00:00', title: 'Task 6'}
@@ -126,7 +126,7 @@ app.controller('SchedulerCtrl', function ($scope, $http){
 
 		angular.forEach(dummyJson.employee, function(value, key) {
 			if((employee === undefined || employee === null) || (employee !== undefined && employee !== null && (employee.id == value.id || employee.id == 'e0'))) {
-				$scope.calResources.push({id : value.id, title : value.name});	
+				$scope.calResources.push({id : value.id, title : value.name, eventColor: $scope.colorGenerator()});	
 			}
 		});
 
@@ -138,7 +138,7 @@ app.controller('SchedulerCtrl', function ($scope, $http){
 			}
 		});				
 
-		$scope.generateSimpleCalendar($scope.calResources, $scope.calEvents, 'Employees', true);				
+		$scope.generateSimpleCalendar($scope.calResources, $scope.calEvents, 'Zaposlenici', true);				
 	};
 
 	$scope.buildOrganizationView = function(organization) {
@@ -152,7 +152,7 @@ app.controller('SchedulerCtrl', function ($scope, $http){
 			    angular.forEach(dummyJson.employee, function(innerValue, innerKey) {
 				    angular.forEach(innerValue.tasks, function(taskValue, taskKey) {
 				    	if(value.id == taskValue.orgUnit && $scope.checkIfResourceExists(innerValue.name, value.name, $scope.calResources)) {
-							$scope.calResources.push({id : taskValue.id, title : innerValue.name, group: value.name});
+							$scope.calResources.push({id : taskValue.id, title : innerValue.name, group: value.name, eventColor: $scope.colorGenerator()});
 				    	}
 					});
 				});
@@ -169,7 +169,7 @@ app.controller('SchedulerCtrl', function ($scope, $http){
 			});
 		});
 
-		$scope.generateSimpleCalendar($scope.calResources, $scope.calEvents, 'Organizations', false);				
+		$scope.generateSimpleCalendar($scope.calResources, $scope.calEvents, 'Odjeli', false);				
 	};
 
 	$scope.checkIfResourceExists = function(title, group, resources) {
@@ -196,6 +196,12 @@ app.controller('SchedulerCtrl', function ($scope, $http){
 		});	
 
 		return resId;
+	}
+
+	$scope.colorGenerator = function() {
+		var colorArray = ['#00bd9f','#01cc7b','#f4c343','#9f59b1','#54afde','#1781b3','#00ae69','#da511d','#2e414f','#01a187','#9444a7'];
+
+		return colorArray[Math.floor((Math.random() * 11) + 1)];
 	}					
 
 	//$scope.buildClassicView(null);
