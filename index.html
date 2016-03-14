@@ -9,273 +9,43 @@
 	<link href='css/fullcalendar.print.css' rel='stylesheet' media='print'/>
 	<link href='css/scheduler.min.css' rel='stylesheet' />
 	<link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.8.5/css/selectize.default.css">
+	<link href='https://fonts.googleapis.com/css?family=Ubuntu+Condensed|Open+Sans|Droid+Sans|Oswald' rel='stylesheet' type='text/css'>
+	<link href='css/index.css' rel='stylesheet' />
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.3.20/angular.min.js"></script>
 	<script src="https://rawgit.com/tamtakoe/oi.select/master/dist/select-tpls.js"></script>
 	<script src='js/moment.min.js'></script>
 	<script src='js/jquery.min.js'></script>
 	<script src='js/fullcalendar.min.js'></script>
+	<script src='js/lang/hr.js'></script>
 	<script src='js/scheduler.min.js'></script>
-	<script>
-		var app = angular.module('schedulerApp', ['oi.select']);
-
-		app.controller('SchedulerCtrl', function ($scope, $http){
-
- 			$scope.orgUnits = {};
- 			$scope.skills = {};
- 			$scope.employees = {};
-
-			var dummyJson = {
-				orgUnits: [
-			  	{'id':'o1', 'name':'Department 1'},
-			  	{'id':'o2', 'name':'Department 2'},
-				{'id':'o3', 'name':'Department 3'},
-				{'id':'o4', 'name':'Department 4'},
-				{'id':'o5', 'name':'Department 5'}
-			  ],
-			  skills : [
-			  	{'id':'s1', 'name':'Pranje Prozora'},
-			    {'id':'s2', 'name':'Skok s motkom'},
-			    {'id':'s3', 'name':'Bacanje pogleda u vis'},
-			    {'id':'s4', 'name':'Kopanje ruda i gubljenje vremena'},
-			    {'id':'s5', 'name':'Tehnolog'}
-			  ],
-			  employee : [
-			  	{'id':'e1', name: 'Pero Perić','tasks': [
-			      {id: 't1', 'orgUnit' : 'o1', 'skill' : 's2', start: '2016-01-07T02:00:00', end: '2016-01-07T07:00:00', title: 'Task 1'},
-			      {id: 't2', 'orgUnit' : 'o1', 'skill' : 's1', start: '2016-01-07T05:00:00', end: '2016-01-07T13:00:00', title: 'Task 6'},
-			      {id: 't8', 'orgUnit' : 'o1', 'skill' : 's3', start: '2016-01-07T14:00:00', end: '2016-01-07T16:00:00', title: 'Task 6'}
-			    ]},
-			    {'id':'e2', name: 'Tajni Petokolonaš','tasks': [
-			      {id: 't3', 'orgUnit' : 'o2', 'skill' : 's5', start: '2016-01-07T02:00:00', end: '2016-01-07T15:00:00', title: 'Task 2'}
-			    ]},
-			    {'id':'e3', name: 'Hunny Bunny aka Dražen Zečić','tasks': [
-			      {id: 't4', 'orgUnit' : 'o3', 'skill' : 's4', start: '2016-01-07T02:00:00', end: '2016-01-07T11:00:00', title: 'Task 3'},
-			      {id: 't7', 'orgUnit' : 'o5', 'skill' : 's5', start: '2016-01-07T10:00:00', end: '2016-01-07T17:00:00', title: 'Task 7'}
-			    ]},
-			    {'id':'e4', name: 'Lovac na Jelene','tasks': [
-			      {id: 't5', 'orgUnit' : 'o4', 'skill' : 's3', start: '2016-01-07T02:00:00', end: '2016-01-07T07:00:00', title: 'Task 4'}
-			    ]},
-			    {'id':'e5', name: 'Mali Ivica','tasks': [
-			      {id: 't6', 'orgUnit' : 'o5', 'skill' : 's1', start: '2016-01-07T02:00:00', end: '2016-01-07T06:00:00', title: 'Task 5'}
-			    ]}                
-			  ]
-			};	
-
-			$scope.employees["e0"] = {'name': 'Show every employee', id : 'e0'};
-			angular.forEach(dummyJson.employee, function(value, key) {
-			    $scope.employees[value.id] = {'name': value.name, 'id' : value.id};
-			});
-
-			$scope.orgUnits["o0"] = {'name': 'Show every org. unit', id : 'o0'};
-			angular.forEach(dummyJson.orgUnits, function(value, key) {
-			    $scope.orgUnits[value.id] = {'name': value.name, 'id' : value.id};
-			});
-
-			$scope.skills["s0"] = {'name': 'Show every skill', id : 's0'};
-			angular.forEach(dummyJson.skills, function(value, key) {
-			    $scope.skills[value.id] = {'name': value.name, 'id' : value.id};
-			});
-
-			$scope.$watch("employee", function(newValue, oldValue){
-				if(newValue !== undefined && newValue !== null) {				
-					$scope.buildClassicView(newValue);
-					$scope.orgUnit = null;
-					$scope.skill = null;
-				}				
-			});
-
-			$scope.$watch("orgUnit", function(newValue, oldValue){
-				if(newValue !== undefined && newValue !== null) {
-					$scope.buildOrganizationView(newValue);
-					$scope.employee = null;
-					$scope.skill = null;					
-				}
-			});
-
-			$scope.$watch("skill", function(newValue, oldValue){
-				if(newValue !== undefined) {
-					
-				}
-			});
-
-			$scope.generateSimpleCalendar = function(calResources, calEvents, lebelText, simpleDisplay) {
-
-				$('#calendar-container').empty();
-				$('#calendar-container').append('<div id="calendar"></div>');
-
-				var options = {
-					now: '2016-01-07',
-					editable: false, // enable draggable events
-					schedulerLicenseKey: 'CC-Attribution-NonCommercial-NoDerivatives',
-					aspectRatio: 1.8,
-					scrollTime: '00:00', // undo default 6am scrollTime
-					header: {
-						left: 'today prev,next',
-						center: 'title',
-						right: 'timelineDay,timelineThreeDays,agendaWeek,month'
-					},
-					defaultView: 'timelineDay',
-					views: {
-						timelineThreeDays: {
-							type: 'timeline',
-							duration: { days: 3 }
-						}
-					},
-					resourceLabelText: lebelText,
-					resources: calResources,
-					events: calEvents
-				};
-
-				if(!simpleDisplay) {
-					options.resourceGroupField = 'group';
-				}
-
-				$('#calendar').fullCalendar(options);
-			}			
-
-			$scope.buildClassicView = function(employee) {
-
-				$scope.calResources = [];
-				$scope.calEvents = [];
-				$scope.calInnerElements = 0;
-
-				angular.forEach(dummyJson.employee, function(value, key) {
-					if((employee === undefined || employee === null) || (employee !== undefined && employee !== null && (employee.id == value.id || employee.id == 'e0'))) {
-						$scope.calResources.push({id : value.id, title : value.name});	
-					}
-				});
-
-				angular.forEach(dummyJson.employee, function(value, key) {
-					if((employee === undefined || employee === null) || (employee !== undefined && employee !== null && (employee.id == value.id || employee.id == 'e0'))) {
-					    angular.forEach(value.tasks, function(innerValue, innerKey) {
-						    $scope.calEvents.push({id :$scope.calInnerElements++, resourceId : value.id, start : innerValue.start, end : innerValue.end, title: innerValue.title});
-						});	
-					}
-				});				
-
-				$scope.generateSimpleCalendar($scope.calResources, $scope.calEvents, 'Employees', true);				
-			};
-
-			$scope.buildOrganizationView = function(organization) {
-
-				$scope.calResources = [];
-				$scope.calEvents = [];
-				$scope.calInnerElements = 0;
-
-				angular.forEach(dummyJson.orgUnits, function(value, key) {
-					if((organization === undefined || organization === null) || (organization !== undefined && organization !== null && (organization.id == value.id || organization.id == 'o0'))) {
-					    angular.forEach(dummyJson.employee, function(innerValue, innerKey) {
-						    angular.forEach(innerValue.tasks, function(taskValue, taskKey) {
-						    	if(value.id == taskValue.orgUnit && $scope.checkIfResourceExists(innerValue.name, value.name, $scope.calResources)) {
-									$scope.calResources.push({id : taskValue.id, title : innerValue.name, group: value.name});
-						    	}
-							});
-						});
-					}
-				});
-
-				angular.forEach(dummyJson.employee, function(value, key) {
-				    angular.forEach(value.tasks, function(innerValue, innerKey) {
-				    	if((organization === undefined || organization === null) || (organization !== undefined && organization !== null && (organization.id == innerValue.orgUnit || organization.id == 'o0'))) {
-					    	var resId = innerValue.id;
-					    	resId = $scope.getCorrectTaskId(resId, innerValue.orgUnit, value.tasks);
-						    $scope.calEvents.push({id : $scope.calInnerElements++, resourceId : resId, start : innerValue.start, end : innerValue.end, title: innerValue.title});
-						}
-					});
-				});
-
-				$scope.generateSimpleCalendar($scope.calResources, $scope.calEvents, 'Organizations', false);				
-			};
-
-			$scope.checkIfResourceExists = function(title, group, resources) {
-
-				var dontExist = true;
-
-			    angular.forEach(resources, function(value, key) {
-				    if(value.title == title && value.group == group) {
-						dontExist = false;
-				    }
-				});	
-
-				return dontExist;			
-			}	
-
-			$scope.getCorrectTaskId = function(resId, group, events) {
-
-				var keepGoing = true;
-			    angular.forEach(events, function(innerValue, innerKey) {
-				    if(innerValue.orgUnit == group && keepGoing) {
-				    	resId = innerValue.id;
-				    	keepGoing = false;
-				    }
-				});	
-
-				return resId;
-			}					
-
-			//$scope.buildClassicView(null);
-			$scope.buildOrganizationView(null);
-		});
-	</script>
-	<style>
-
-		body {
-			margin: 0;
-			padding: 0;
-			font-family: "Lucida Grande",Helvetica,Arial,Verdana,sans-serif;
-			font-size: 14px;
-		}
-
-		#calendar {
-			max-width: 100%;
-		}
-
-		.spacer {
-			height: 50px;
-		}
-
-		@media (min-width: 1200px) {
-			.container {
-			    width: 100%;
-			}
-		}	
-
-		@media (min-width: 992px) {
-			.container {
-			     width: 100%;
-			}
-		}
-			
-		@media (min-width: 768px) {
-			.container {
-			     width: 100%;
-			}
-		}
-
-	</style>
+	<script src='js/app.js'></script>
 </head>
 <body ng-controller="SchedulerCtrl">
-	<div class="container">
-		<div class="row spacer"></div>
-		<div class="row">
-			<div class="col-md-1"></div>
+	<div class="calendar-inner-container">
+		<div class="row spacer clr-cian"></div>
+		<div class="row clr-cian">
+			<div class="col-md-3"></div>
 			<div class="col-md-2">
-				<oi-select oi-options="item.name for (key, item) in employees" ng-model="employee" placeholder="Select Employee"></oi-select>
+				<oi-select oi-options="item.name for (key, item) in employees" ng-model="employee" placeholder="Odaberite zaposlenika"></oi-select>
 			</div>
 			<div class="col-md-2">
-				<oi-select oi-options="item.name for (key, item) in orgUnits" ng-model="orgUnit" placeholder="Select Organization Unit"></oi-select>
+				<oi-select oi-options="item.name for (key, item) in orgUnits" ng-model="orgUnit" placeholder="Odaberite odjel"></oi-select>
 			</div>
 			<div class="col-md-2">
-				<oi-select oi-options="item.name for (key, item) in skills" ng-model="skill" placeholder="Select Skill"></oi-select>
+				<oi-select oi-options="item.name for (key, item) in skills" ng-model="skill" placeholder="Odaberite vještinu"></oi-select>
 			</div>						
-			<div class="col-md-5"></div>
+			<div class="col-md-3"></div>
 		</div>
-		<div class="row spacer"></div>
+		<div class="row spacer clr-cian"></div>
 		<div class="row">
-			<div class="col-md-1"></div>
-			<div class="col-md-10" id="calendar-container">
+			<div class="col-md-1 fc-no-padding">
+				<div class="fc-spacer clr-cian"></div>
 			</div>
-			<div class="col-md-1"></div>
+			<div class="col-md-10 fc-no-padding" id="calendar-container">
+			</div>
+			<div class="col-md-1 fc-no-padding">
+				<div class="fc-spacer clr-cian"></div>
+			</div>
 		</div>
 	</div>
 </body>
