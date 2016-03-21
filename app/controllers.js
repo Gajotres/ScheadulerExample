@@ -208,7 +208,7 @@ app.controller('SchedulerCtrl', function ($scope, $http, Backend){
 	//$scope.buildClassicView(null);
 	$scope.buildOrganizationView(null);
 
-	Backend.query(function(data) {
+	/*Backend.query(function(data) {
       // Obradi podatke
-    });
+    });*/
 });

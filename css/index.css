@@ -47,6 +47,11 @@ body {
 	background-color: #fff;
 }
 
+.row {
+    margin-right: 0px !important;
+    margin-left: 0px !important;
+}
+
 /************************************/
 /***** FullCalendar CSS changes *****/
 /************************************/
@@ -65,8 +70,8 @@ body {
 	border: none;
     -webkit-box-shadow: 0 2px 4px rgba(0,0,0,.08);
     box-shadow: 0 2px 4px rgba(0,0,0,.08);	
-    margin-left: -11%;
-    margin-right: -11%;
+    /*margin-left: -11%;
+    margin-right: -11%;*/
 }
 
 .fc-toolbar .fc-right {
