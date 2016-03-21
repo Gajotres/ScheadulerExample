@@ -22,22 +22,22 @@ app.controller('SchedulerCtrl', function ($scope, $http){
 	    {'id':'s5', 'name':'Tehnolog'}
 	  ],
 	  employee : [
-	  	{'id':'e1', name: 'Pero Perić', 'tasks': [
+	  	{'id':'e1', name: '- Pero Perić', 'tasks': [
 	      {id: 't1', 'orgUnit' : 'o1', 'skill' : 's2', start: '2016-01-07T02:00:00', end: '2016-01-07T07:00:00', title: 'Task 1'},
 	      {id: 't2', 'orgUnit' : 'o1', 'skill' : 's1', start: '2016-01-07T05:00:00', end: '2016-01-07T13:00:00', title: 'Task 6'},
 	      {id: 't8', 'orgUnit' : 'o1', 'skill' : 's3', start: '2016-01-07T14:00:00', end: '2016-01-07T16:00:00', title: 'Task 6'}
 	    ]},
-	    {'id':'e2', name: 'Tajni Petokolonaš','tasks': [
+	    {'id':'e2', name: '- Tajni Petokolonaš','tasks': [
 	      {id: 't3', 'orgUnit' : 'o2', 'skill' : 's5', start: '2016-01-07T02:00:00', end: '2016-01-07T15:00:00', title: 'Task 2'}
 	    ]},
-	    {'id':'e3', name: 'Hunny Bunny aka Dražen Zečić','tasks': [
+	    {'id':'e3', name: '- Hunny Bunny aka Dražen Zečić','tasks': [
 	      {id: 't4', 'orgUnit' : 'o3', 'skill' : 's4', start: '2016-01-07T02:00:00', end: '2016-01-07T11:00:00', title: 'Task 3'},
 	      {id: 't7', 'orgUnit' : 'o5', 'skill' : 's5', start: '2016-01-07T10:00:00', end: '2016-01-07T17:00:00', title: 'Task 7'}
 	    ]},
-	    {'id':'e4', name: 'Lovac na Jelene','tasks': [
+	    {'id':'e4', name: '- Lovac na Jelene','tasks': [
 	      {id: 't5', 'orgUnit' : 'o4', 'skill' : 's3', start: '2016-01-07T02:00:00', end: '2016-01-07T07:00:00', title: 'Task 4'}
 	    ]},
-	    {'id':'e5', name: 'Mali Ivica','tasks': [
+	    {'id':'e5', name: '- Mali Ivica','tasks': [
 	      {id: 't6', 'orgUnit' : 'o5', 'skill' : 's1', start: '2016-01-07T02:00:00', end: '2016-01-07T06:00:00', title: 'Task 5'}
 	    ]}                
 	  ]
