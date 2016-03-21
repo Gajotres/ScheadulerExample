@@ -8,11 +8,11 @@ app.controller('SchedulerCtrl', function ($scope, $http){
 
 	var dummyJson = {
 		orgUnits: [
-	  	{'id':'o1', 'name':'Odjel 1'},
-	  	{'id':'o2', 'name':'Odjel 2'},
-		{'id':'o3', 'name':'Odjel 3'},
-		{'id':'o4', 'name':'Odjel 4'},
-		{'id':'o5', 'name':'Odjel 5'}
+	  	{'id':'o1', 'name':'Podrumske prostorije'},
+	  	{'id':'o2', 'name':'Vrh zgrade'},
+		{'id':'o3', 'name':'Odjhel za gubljenje vremena'},
+		{'id':'o4', 'name':'Radionica mašte'},
+		{'id':'o5', 'name':'Fakat nemam pojma'}
 	  ],
 	  skills : [
 	  	{'id':'s1', 'name':'Pranje Prozora'},

@@ -138,10 +138,9 @@ body {
 }
 
 .fc-resource-area .fc-icon {
-    font-size: 11px;
+    font-size: 9px;
     vertical-align: middle;
-    margin-top: -7px;
-    margin-left: 10px;
+    margin: -2px 10px 0 9px;
 }
 
 /* Content header text align */
