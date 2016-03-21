@@ -1,18 +1,27 @@
+html, body {
+    width: 100%;
+    height: 100%;	
+    background-color: #f3f3f3;    
+}
+
 @media (min-width: 1200px) {
 	.calendar-inner-container {
 	    width: 100%;
+	    height: 100%;
 	}
 }	
 
 @media (min-width: 992px) {
 	.calendar-inner-container {
 	     width: 100%;
+	     height: 100%;
 	}
 }
 	
 @media (min-width: 768px) {
 	.calendar-inner-container {
 	     width: 100%;
+	     height: 100%;
 	}
 }
 
@@ -30,68 +39,126 @@ body {
 	 outline: none;
 }
 
-
 .spacer {
 	height: 50px;
 }
 
-.clr-cian {
-	background: #ec7b37;
+.white-bckgr {
+	background-color: #fff;
 }
 
-/* FullCalendar CSS changes */
+/************************************/
+/***** FullCalendar CSS changes *****/
+/************************************/
 
-.fc-view-container * {
-	font-family: 'Open Sans', sans-serif;	
-}
+/* HEADER */
 
-.fc-spacer {
-	height: 81px;
+.toolbar-row div {
+	padding-left: 0 !important;
+	padding-right: 0 !important;
 }
 
 .fc-toolbar {
-	background: #ec7b37;
-	margin-bottom: 3em;
+	margin-bottom: 50px;
 	padding-bottom: 20px;
+	background-color: #fff; 
+	border: none;
+    -webkit-box-shadow: 0 2px 4px rgba(0,0,0,.08);
+    box-shadow: 0 2px 4px rgba(0,0,0,.08);	
+    margin-left: -11%;
+    margin-right: -11%;
+}
+
+.fc-toolbar .fc-right {
+    margin-right: 10%;
+}
+
+.fc-toolbar .fc-left {
+    margin-left: 10%;
+}
+
+.fc-spacer {
+	height: 58px;
+	background-color: #fff;
 }
 
 .fc-toolbar .fc-center h2 {
 	font-family: 'Ubuntu Condensed', sans-serif !important;
-	font-size: 40px;
-	color: #fff;
-	border-top: 1px solid #f19e6d;
-    border-bottom: 1px solid #f19e6d;
+	font-size: 64px;
+	color: #686868 !important;
     padding: 5px 0;	
 }
 
-.fc-no-padding {
-	padding: 0 !important;
+
+/* CONTENT */
+
+.fc-view-container {
+	background-color: #fff;
+	border: 1px solid #eaeaea !important;
 }
 
+.fc-view-container * {
+	font-family: 'Roboto', sans-serif;
+}
+
+.fc-unthemed .fc-divider, .fc-unthemed .fc-popover, .fc-unthemed .fc-row, .fc-unthemed tbody, .fc-unthemed td, .fc-unthemed th, .fc-unthemed thead {
+    border-color: #eaeaea;
+}
+
+.fc-unthemed tbody, .fc-unthemed td, .fc-unthemed th, .fc-unthemed thead {
+	border-color: #f6f6f6;
+}	
+
+.fc-view-container .fc-view table .fc-head, .fc-view-container .fc-view table .fc-head tr {
+	height: 50px;
+	background-color: #f6f6f6;
+}
+
+.fc-view-container .fc-view table .fc-head tr td {
+	border-bottom: 2px solid #eaeaea;
+}
+	
+
+/* Fix for double border width*/
+.fc-timeline .fc-scrollpane-inner>.fc-bg, .fc-timeline .fc-scrollpane-inner>.fc-content {
+	margin: -2px !important;
+}
+
+/* Horizontal divider fix */
+.fc-unthemed .fc-divider, .fc-unthemed .fc-popover .fc-header {
+    background: #fcfcfc;
+}
+
+/* Horizontal Divider top/bottom border color fix */
+.fc-body tr td .fc-scrollpane div div .fc-content table tbody tr td.fc-divider {
+	border-color: #f6f6f6;
+	text-transform: uppercase;
+	color: #444;
+	font-size: 16px;
+}
+
+.fc-resource-area .fc-icon {
+    font-size: 11px;
+    vertical-align: middle;
+    margin-top: -7px;
+    margin-left: 10px;
+}
+
+/* Content header text align */
 .fc-chrono .fc-widget-header .fc-cell-content {
 	text-align: center;
 }
 
-.fc-timeline .fc-divider {
-    background: #ec7d36;
-    color: #fff;
-    border-color: #f0975c !important;
+.fc-chrono .fc-widget-header:last-child .fc-cell-content {
+	text-align: left;
 }
 
-.fc-head tr td {
-	border-color: #f3a87b !important;	
-}
-
-.fc-unthemed tbody, .fc-unthemed td {
-	border-color: #eee !important;
-}
-
-.fc-unthemed th, .fc-unthemed thead {
-	border-color: #f3a87b !important;	
-}
-
-.fc-unthemed .fc-divider, .fc-unthemed .fc-popover, .fc-unthemed .fc-row, .fc-unthemed tbody, .fc-unthemed td, .fc-unthemed th, .fc-unthemed thead {
-    border-color: #f3a87b;
+.fc-view-container .fc-nested table .fc-head *,  .fc-view-container .fc-timeline table .fc-head *, .fc-view-container .fc-agenda-view table .fc-head *, .fc-view-container .fc-month-view table .fc-head * {
+	color: #76838f;
+	font-size: 14px;
+	text-transform: uppercase;
+	text-shadow: 1px 1px #fff;
+	font-weight: 100;
 }
 
 .fc-event{ 
@@ -100,89 +167,47 @@ body {
 	margin-bottom: 0;
 } 
 
-.fc-view-container .fc-nested table .fc-head, .fc-view-container .fc-timeline table .fc-head, .fc-view-container .fc-agenda-view table .fc-head, .fc-view-container .fc-month-view table .fc-head {
-	background: #da511d;
-	color: #fff;
+.fc-content .fc-widget-content div .fc-cell-content .fc-cell-text {
+	font-size: 16px;
+	color: #64707a;
 	font-family: 'Open Sans', sans-serif;
 }
 
-.fc-view-container .fc-nested table .fc-head *,  .fc-view-container .fc-timeline table .fc-head *, .fc-view-container .fc-agenda-view table .fc-head *, .fc-view-container .fc-month-view table .fc-head * {
-	font-size: 12px;
-	text-transform: uppercase;
-	text-shadow: 1px 1px #9f3c15;
-}
-
-.fc-divider .fc-expander {
-	color: #903614;
-	font-size: .5em;
-	margin-top: -1%;
-}
-
-.fc-divider .fc-cell-text {
-	font-size: 13px;
-}
-
-.fc-content .fc-widget-content .fc-cell-content .fc-cell-text {
-	color: #555;
-    font-size: 12px;
-    font-weight: bold !important;
-}
-
-
 button.fc-state-default {
-	background: #da511d;
+	background: #fff;
 	font-family: 'Droid Sans', sans-serif;
 	font-size: 0.9em;	
-	color: #fff;
-	text-shadow: 0 0 0 rgba(255,255,255,.75) !important;
-    box-shadow: inset 0 0 0 rgba(255,255,255,.2),0 0 0 rgba(0,0,0,.05) !important;
-	border-color: #c74b1b;    
+	border-color: #ccc;    
 }
 
 button.fc-state-default:hover {
-	background: #c74b1b; 
+	background: #fafafa; 
 }
 
-
-/* Oi-Select CSS changes */
-
-oi-select .select-search {
-	border-color: #c74b1b; 
-	background: #da511d;
-    color: #fff;
-}
-
-oi-select .select-search input {
-	background: #da511d;
-	color: #fff !important;
-	font-family: 'Droid Sans', sans-serif;	
-}
-
-oi-select:not(.multiple) .select-search-list-item_selection {
-	color: #fff !important;
-	border-color: #da511d;
+.fc-button-group button:last-child {
+	border-left-width: 0;
 }
 
 /* Change Oi-select placeholder text color */
 
 oi-select .select-search input::-webkit-input-placeholder { /* WebKit, Blink, Edge */
-    color:    #fff;
+    color:    #777470;
 }
 
 oi-select .select-search input:-moz-placeholder { /* Mozilla Firefox 4 to 18 */
-   color:    #fff;
+   color:    #777470;
    opacity:  1;
 }
 
 oi-select .select-search input::-moz-placeholder { /* Mozilla Firefox 19+ */
-   color:    #fff;
+   color:    #777470;
    opacity:  1;
 }
 
 oi-select .select-search input:-ms-input-placeholder { /* Internet Explorer 10-11 */
-   color:    #fff;
+   color:    #777470;
 }
 
 oi-select .select-search input:placeholder-shown { /* Standard (https://drafts.csswg.org/selectors-4/#placeholder) */
-  color:    #fff;
+  color:    #777470;
 }

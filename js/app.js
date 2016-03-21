@@ -88,7 +88,7 @@ app.controller('SchedulerCtrl', function ($scope, $http){
 		var options = {
 			lang: 'hr',
 			titleFormat: 'DD. MMM YYYY',
-			slotLabelFormat: 'HH',
+			slotLabelFormat: 'HH:mm',
 			now: '2016-01-07',
 			editable: false, // enable draggable events
 			schedulerLicenseKey: 'CC-Attribution-NonCommercial-NoDerivatives',
@@ -108,7 +108,10 @@ app.controller('SchedulerCtrl', function ($scope, $http){
 			},
 			resourceLabelText: lebelText,
 			resources: calResources,
-			events: calEvents
+			events: calEvents,
+			dayRender: function(date, cell) {
+				// Ovdje mijenjati cell color za sate koji nisu iskorišteni
+    		}
 		};
 
 		if(!simpleDisplay) {
