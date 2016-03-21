@@ -1,4 +1,4 @@
-$( document ).ready(function() {
+/*$( document ).ready(function() {
 	redrawToolbar();
 });
 
@@ -11,4 +11,4 @@ var calculateAvalableToolbarSpace = function() {
 var redrawToolbar = function() {
     var available_space = calculateAvalableToolbarSpace();
     $(".fc-toolbar").css({'margin-left':'-' + available_space + 'px' ,'margin-right':'-' + available_space + 'px'});	
-}
+}*/
